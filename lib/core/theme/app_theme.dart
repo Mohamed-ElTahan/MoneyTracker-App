@@ -134,6 +134,18 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           color: ColorsManager.textDark,
         ),
+        // Used for: Profile & Settings Title
+        labelSmall: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: ColorsManager.textGrey,
+        ),
+
+        titleSmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.textGrey,
+        ),
       ),
     );
   }
