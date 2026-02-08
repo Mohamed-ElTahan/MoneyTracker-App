@@ -18,3 +18,7 @@
 </div>
 
 ---
+
+## 📖 Overview
+
+**MoneyTracker** is a modern financial management tool designed to help users track expenses, monitor income, and visualize spending habits. Built with **Feature-First Architecture**, it leverages **Cubit** for state management, **Firebase** for secure cloud synchronization, and **Hive** for fast local storage and offline capabilities.
