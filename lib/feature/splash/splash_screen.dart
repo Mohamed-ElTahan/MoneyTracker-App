@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/colors_manager.dart';
 import '../../core/utils/app_routes.dart';
@@ -14,12 +15,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToLogin();
+    _checkAuthStatus();
   }
 
-  Future<void> _navigateToLogin() async {
+  Future<void> _checkAuthStatus() async {
+    // Artificial delay for splash screen
     await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
+
+    if (!mounted) return;
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is logged in -> Go to Profile/Home
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    } else {
+      // User is logged out -> Go to Login
       Navigator.pushReplacementNamed(context, AppRoutes.login);
     }
   }
