@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_tracker_app/core/data_source/firebase_data_source.dart';
+import 'package:money_tracker_app/feature/auth/models/user_model.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupInitial());
+
+  final FirebaseDataSource firebaseDataSource = FirebaseDataSource();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -13,27 +17,35 @@ class SignupCubit extends Cubit<SignupState> {
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  Future<void> signUp(UserModel user) async {
+    emit(SignupLoading());
+    try {
+      await firebaseDataSource.signUp(
+        email: user.email,
+        password: user.password,
+        name: user.name,
+      );
+      emit(SignupSuccess());
+    } catch (e) {
+      emit(SignupFailure(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> emitSignupStates() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
-    emit(SignupLoading());
+    // Create UserModel from form controllers
+    final user = UserModel(
+      email: emailController.text,
+      password: passwordController.text,
+      name: nameController.text,
+      fev: [],
+    );
 
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Simulate Success/Failure logic (Mock)
-    try {
-      // For demonstration, if email contains 'error', we fail.
-      if (emailController.text.toLowerCase().contains('error')) {
-        emit(SignupFailure(errorMessage: 'Signup Failed: Simulated Error'));
-      } else {
-        emit(SignupSuccess());
-      }
-    } catch (e) {
-      emit(SignupFailure(errorMessage: e.toString()));
-    }
+    // Call the real Firebase signup
+    await signUp(user);
   }
 
   @override

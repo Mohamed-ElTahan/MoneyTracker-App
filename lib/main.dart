@@ -1,16 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:money_tracker_app/feature/auth/signup/signup_screen.dart';
+import 'package:money_tracker_app/feature/home/home_screen.dart';
+import 'package:money_tracker_app/feature/profile_settings/profile_and_settings_screen.dart';
+import 'package:money_tracker_app/firebase_options.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/app_routes.dart';
-import 'feature/add_transaction/add_transaction_screen.dart';
-import 'feature/auth/login/login_screen.dart';
-import 'feature/auth/signup/signup_screen.dart';
-
-import 'feature/profile_settings/profile_and_settings_screen.dart';
 import 'feature/splash/splash_screen.dart';
+import 'feature/auth/login/login_screen.dart';
 
-import 'feature/main_wrapper/main_wrapper_screen.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -21,14 +23,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'MoneyWise',
       theme: AppTheme.lightTheme,
+
+      // Initial route - Splash Screen
       initialRoute: AppRoutes.splash,
+
+      // Named routes configuration
       routes: {
         AppRoutes.splash: (context) => const SplashScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.signup: (context) => const SignupScreen(),
-        AppRoutes.home: (context) => const MainWrapperScreen(),
-        AppRoutes.addTransaction: (context) => const AddTransactionScreen(),
+        AppRoutes.home: (context) => const HomeScreen(),
         AppRoutes.profileAndSettings: (context) =>
             const ProfileAndSettingsScreen(),
       },

@@ -62,14 +62,56 @@ class _SignupScreenContentState extends State<_SignupScreenContent> {
       body: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           if (state is SignupFailure) {
+            // Parse Firebase error messages to user-friendly text
+            String errorMessage = state.errorMessage.toLowerCase();
+            String friendlyMessage;
+
+            if (errorMessage.contains('email-already-in-use')) {
+              friendlyMessage =
+                  'This email is already registered. Please login instead.';
+            } else if (errorMessage.contains('weak-password')) {
+              friendlyMessage =
+                  'Password is too weak. Please use a stronger password.';
+            } else if (errorMessage.contains('invalid-email')) {
+              friendlyMessage =
+                  'Invalid email address. Please check and try again.';
+            } else if (errorMessage.contains('network-request-failed')) {
+              friendlyMessage = 'Network error. Please check your connection.';
+            } else if (errorMessage.contains('unknown-error') ||
+                errorMessage.contains('internal-error')) {
+              friendlyMessage = 'Something went wrong. Please try again.';
+            } else if (errorMessage.contains('operation-not-allowed')) {
+              friendlyMessage =
+                  'Email/password signup is not enabled. Please contact support.';
+            } else {
+              // Generic fallback message
+              friendlyMessage =
+                  'Signup failed. Please check your information and try again.';
+            }
+
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage),
+                content: Text(friendlyMessage),
                 backgroundColor: ColorsManager.expenseRed,
+                duration: const Duration(seconds: 4),
               ),
             );
           } else if (state is SignupSuccess) {
-            Navigator.pushReplacementNamed(context, AppRoutes.home);
+            // Show success message
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Account created successfully! Welcome to MoneyWise 🎉',
+                ),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 2),
+              ),
+            );
+
+            // Navigate to home after success message
+            Future.delayed(const Duration(milliseconds: 500), () {
+              Navigator.pushReplacementNamed(context, AppRoutes.home);
+            });
           }
         },
         builder: (context, state) {
