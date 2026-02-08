@@ -3,15 +3,7 @@ import 'package:money_tracker_app/core/data_source/firebase_data_source.dart';
 import 'profile_state.dart';
 
 class ProfileSettingsCubit extends Cubit<ProfileState> {
-  ProfileSettingsCubit()
-    : super(
-        const ProfileState(
-          isDarkMode: false,
-          currency: 'USD (\$)',
-          language: 'EN',
-          isLoggingOut: false,
-        ),
-      );
+  ProfileSettingsCubit() : super(ProfileState());
 
   final FirebaseDataSource _firebaseDataSource = FirebaseDataSource();
 
@@ -33,9 +25,14 @@ class ProfileSettingsCubit extends Cubit<ProfileState> {
     emit(state.copyWith(isLoggingOut: true));
     try {
       await _firebaseDataSource.logout();
-      emit(state.copyWith(isLoggingOut: false, logoutSuccess: true));
+      emit(state.copyWith(logoutSuccess: true));
     } catch (e) {
-      emit(state.copyWith(isLoggingOut: false, logoutError: e.toString()));
+      emit(state.copyWith(logoutError: e.toString()));
     }
+  }
+
+  Future<void> getUserName() async {
+    final userModel = await _firebaseDataSource.getUserDetails();
+    emit(state.copyWith(userModel: userModel));
   }
 }

@@ -20,7 +20,7 @@ class MainBottomNavBar extends StatelessWidget {
       shape: const CircularNotchedRectangle(),
       color: ColorsManager.white,
       notchMargin: 8,
-      height: 60,
+      height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

@@ -19,12 +19,7 @@ class FirebaseDataSource {
           .collection('users')
           .doc(userCredential.user!.uid)
           .set(
-            UserModel(
-              email: email,
-              password: password,
-              name: name,
-              fev: [],
-            ).toJson(),
+            UserModel(email: email, password: password, name: name).toJson(),
           );
     } catch (e) {
       // Rethrow to allow cubit to handle the error
@@ -44,6 +39,23 @@ class FirebaseDataSource {
   Future<void> logout() async {
     try {
       await _auth.signOut();
+    } catch (e) {
+      // Rethrow to allow cubit to handle the error
+      rethrow;
+    }
+  }
+
+  Future<UserModel> getUserDetails() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final userDoc = await _firebaseFirestore
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        return UserModel.fromJson(userDoc.data()!);
+      }
+      throw Exception('User not found');
     } catch (e) {
       // Rethrow to allow cubit to handle the error
       rethrow;

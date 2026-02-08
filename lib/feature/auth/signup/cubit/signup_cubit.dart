@@ -41,7 +41,6 @@ class SignupCubit extends Cubit<SignupState> {
       email: emailController.text,
       password: passwordController.text,
       name: nameController.text,
-      fev: [],
     );
 
     // Call the real Firebase signup

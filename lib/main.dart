@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
       // Initial route - Splash Screen
       initialRoute: AppRoutes.splash,
 
-      // Named routes configuration
+      // Named routes
       routes: {
         AppRoutes.splash: (context) => const SplashScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
