@@ -16,7 +16,7 @@ class ProfileAndSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileSettingsCubit(),
+      create: (context) => ProfileSettingsCubit()..getUserName(),
       child: BlocListener<ProfileSettingsCubit, ProfileState>(
         listener: (context, state) {
           if (state.logoutSuccess) {
@@ -35,24 +35,22 @@ class ProfileAndSettingsScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Profile & Settings',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
               children: [
                 // Profile Header
-                ProfileHeader(
-                  name: "Mohamed ElTahan",
-                  email: "mosherifeltahna@gmail.com",
-                  onEditPressed: () {},
+                BlocBuilder<ProfileSettingsCubit, ProfileState>(
+                  builder: (context, state) {
+                    if (state.userModel == null) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return ProfileHeader(
+                      name: state.userModel!.name,
+                      email: state.userModel!.email,
+                      onEditPressed: () {},
+                    );
+                  },
                 ),
 
                 SizedBox(height: context.h(0.04)),
