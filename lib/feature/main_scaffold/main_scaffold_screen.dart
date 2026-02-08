@@ -40,20 +40,6 @@ class MainScaffoldScreen extends StatelessWidget {
     ),
   ];
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    TransactionsScreen(),
-    StatsScreen(),
-    ProfileAndSettingsScreen(),
-  ];
-
-  final List<String> _appBar = const [
-    "Home",
-    "Transactions History",
-    "Statistics",
-    "Profile & Settings",
-  ];
-
   @override
   Widget build(BuildContext context) {
     // bloc provider
