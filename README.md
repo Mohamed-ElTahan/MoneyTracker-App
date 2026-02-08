@@ -1,16 +1,24 @@
-# money_tracker_app
+<div align="center">
 
-A new Flutter project.
+# 💰 Money Tracker App
 
-## Getting Started
+  <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" alt="Flutter">
+  <img src="https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=Dart&logoColor=white" alt="Dart">
+  <img src="https://img.shields.io/badge/State%20Management-Bloc%2FCubit-blueviolet?style=for-the-badge" alt="Cubit">
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase">
+  <img src="https://img.shields.io/badge/Hive-NoSQL-yellow?style=for-the-badge" alt="Hive">
 
-This project is a starting point for a Flutter application.
+  <br>
+  <br>
 
-A few resources to get you started if this is your first Flutter project:
+**Your finances, simplified. A smart expense tracker built with Flutter, Firebase, and Hive.**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<i>Feature-First Architecture • Offline Support • Real-time Sync</i>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</div>
+
+---
+
+## 📖 Overview
+
+**MoneyTracker** is a modern financial management tool designed to help users track expenses, monitor income, and visualize spending habits. Built with **Feature-First Architecture**, it leverages **Cubit** for state management, **Firebase** for secure cloud synchronization, and **Hive** for fast local storage and offline capabilities.
