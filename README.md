@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💰 MoneyTracker App
+# 💰 Money Tracker App
 
   <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" alt="Flutter">
   <img src="https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=Dart&logoColor=white" alt="Dart">
