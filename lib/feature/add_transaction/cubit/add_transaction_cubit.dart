@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/data_source/hive_data_source.dart';
 import '../../transactions/model/transaction_model.dart';
 import 'add_transaction_state.dart';
+import '../../../../core/localization/app_strings.dart';
 
 class AddTransactionCubit extends Cubit<AddTransactionState> {
   AddTransactionCubit() : super(AddTransactionState.initial());
@@ -16,7 +17,7 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
       emit(
         state.copyWith(
           isExpense: false,
-          selectedCategory: "Salary",
+          selectedCategory: AppStrings.salary,
           selectedCategoryIcon: Icons.attach_money,
           selectedCategoryColor: Colors.green,
         ),
@@ -29,7 +30,7 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
         emit(
           state.copyWith(
             isExpense: true,
-            selectedCategory: "Select Category",
+            selectedCategory: AppStrings.selectCategory,
             selectedCategoryIcon: Icons.category,
             selectedCategoryColor: Colors.blue,
           ),
@@ -72,7 +73,7 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
         return;
       }
 
-      if (state.selectedCategory == "Select Category") {
+      if (state.selectedCategory == AppStrings.selectCategory) {
         emit(
           state.copyWith(
             status: AddTransactionStatus.failure,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'core/localization/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,12 +45,22 @@ class MainApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'MoneyWise',
+            title: 'MoneyTracker',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: state.settingModel.isDarkMode
                 ? ThemeMode.dark
                 : ThemeMode.light,
+
+            // Localization
+            locale: Locale(state.settingModel.language),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en', 'US'), Locale('ar', 'EG')],
 
             // Initial route - Splash Screen
             initialRoute: AppRoutes.splash,

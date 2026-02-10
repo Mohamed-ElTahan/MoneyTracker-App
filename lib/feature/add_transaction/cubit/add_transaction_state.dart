@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/localization/app_strings.dart';
 
 enum AddTransactionStatus { initial, loading, success, failure }
 
@@ -15,7 +16,7 @@ class AddTransactionState extends Equatable {
   const AddTransactionState({
     this.status = AddTransactionStatus.initial,
     this.isExpense = true,
-    this.selectedCategory = "Select Category",
+    this.selectedCategory = AppStrings.selectCategory,
     this.selectedCategoryIcon = Icons.category,
     this.selectedCategoryColor = Colors.blue,
     required this.selectedDate,
