@@ -6,8 +6,8 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
+    return SizedBox(
+      width: double.infinity,
       child: Text(title, style: Theme.of(context).textTheme.titleMedium),
     );
   }

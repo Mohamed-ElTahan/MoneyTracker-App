@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/colors_manager.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
+import '../../../core/extension/media_query_extension.dart';
 
 class SelectCategorySheet extends StatelessWidget {
   final bool isExpense;
@@ -11,38 +14,62 @@ class SelectCategorySheet extends StatelessWidget {
     required this.onCategorySelected,
   });
 
-  final List<Map<String, dynamic>> expenseCategories = const [
+  List<Map<String, dynamic>> get expenseCategories => [
     {
-      'name': 'Food & Drink',
+      'name': AppStrings.foodDrink,
       'icon': Icons.fastfood,
       'color': ColorsManager.expenseRed,
     },
-    {'name': 'Shopping', 'icon': Icons.shopping_bag, 'color': Colors.blue},
     {
-      'name': 'Transport',
+      'name': AppStrings.shopping,
+      'icon': Icons.shopping_bag,
+      'color': Colors.blue,
+    },
+    {
+      'name': AppStrings.transport,
       'icon': Icons.directions_car,
       'color': ColorsManager.successGreen,
     },
-    {'name': 'Entertainment', 'icon': Icons.movie, 'color': Colors.orange},
     {
-      'name': 'Bills & Utilities',
+      'name': AppStrings.entertainment,
+      'icon': Icons.movie,
+      'color': Colors.orange,
+    },
+    {
+      'name': AppStrings.billsUtilities,
       'icon': Icons.receipt_long,
       'color': Colors.purple,
     },
-    {'name': 'Health', 'icon': Icons.medical_services, 'color': Colors.teal},
     {
-      'name': 'Others',
+      'name': AppStrings.health,
+      'icon': Icons.medical_services,
+      'color': Colors.teal,
+    },
+    {
+      'name': AppStrings.others,
       'icon': Icons.more_horiz,
       'color': ColorsManager.textGrey,
     },
   ];
 
-  final List<Map<String, dynamic>> incomeCategories = const [
-    {'name': 'Salary', 'icon': Icons.attach_money, 'color': Colors.green},
-    {'name': 'Business', 'icon': Icons.business, 'color': Colors.blue},
-    {'name': 'Investment', 'icon': Icons.trending_up, 'color': Colors.purple},
-    {'name': 'Gift', 'icon': Icons.card_giftcard, 'color': Colors.orange},
-    {'name': 'Other', 'icon': Icons.more_horiz, 'color': Colors.teal},
+  List<Map<String, dynamic>> get incomeCategories => [
+    {
+      'name': AppStrings.salary,
+      'icon': Icons.attach_money,
+      'color': Colors.green,
+    },
+    {'name': AppStrings.business, 'icon': Icons.business, 'color': Colors.blue},
+    {
+      'name': AppStrings.investment,
+      'icon': Icons.trending_up,
+      'color': Colors.purple,
+    },
+    {
+      'name': AppStrings.gift,
+      'icon': Icons.card_giftcard,
+      'color': Colors.orange,
+    },
+    {'name': AppStrings.other, 'icon': Icons.more_horiz, 'color': Colors.teal},
   ];
 
   List<Map<String, dynamic>> get categories =>
@@ -53,7 +80,7 @@ class SelectCategorySheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       // Half screen height
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: context.h(0.5),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
@@ -73,7 +100,7 @@ class SelectCategorySheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            "Select Category",
+            AppLocalizations.of(context)!.translate(AppStrings.selectCategory),
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -121,7 +148,9 @@ class SelectCategorySheet extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          cat['name'] as String,
+                          AppLocalizations.of(
+                            context,
+                          )!.translate(cat['name'] as String),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 12,

@@ -1,120 +1,106 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/extension/media_query_extension.dart';
-import '../transactions/model/transaction_model.dart';
+import 'cubit/stats_cubit.dart';
+import 'cubit/stats_states.dart';
 import 'widgets/donut_chart.dart';
 import 'widgets/category_spending_item.dart';
 
-class StatsScreen extends StatelessWidget {
+class StatsScreen extends StatefulWidget {
   const StatsScreen({super.key});
 
   @override
+  State<StatsScreen> createState() => _StatsScreenState();
+}
+
+class _StatsScreenState extends State<StatsScreen> {
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.w(0.05)),
-        child: ValueListenableBuilder<Box<TransactionModel>>(
-          valueListenable: Hive.box<TransactionModel>(
-            'transactions',
-          ).listenable(),
-          builder: (context, box, _) {
-            final transactions = box.values.toList().cast<TransactionModel>();
-            final expenses = transactions
-                .where((tx) => tx.type == TransactionType.expense)
-                .toList();
+    return BlocProvider(
+      create: (context) => StatsCubit()..getStatsData(),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: context.w(0.05)),
+          child: BlocBuilder<StatsCubit, StatsStates>(
+            builder: (context, state) {
+              if (state is StatsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            if (expenses.isEmpty) {
-              return Center(
-                child: Text(
-                  "No expenses yet",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              );
-            }
+              if (state is StatsError) {
+                return const Center(child: Text('Error'));
+              }
 
-            // Calculate Totals by Category
-            final Map<String, double> categoryTotals = {};
-            final Map<String, TransactionModel> categoryMeta = {};
+              if (state is StatsSuccess) {
+                return Column(
+                  children: [
+                    SizedBox(height: context.h(0.02)),
 
-            double totalExpense = 0;
+                    // Donut Chart or No Data
+                    if (state.categoryItems.isEmpty)
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.translate(AppStrings.noExpenses),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      )
+                    else ...[
+                      SizedBox(
+                        height: context.h(0.3),
+                        child: DonutChart(
+                          totalAmount:
+                              "\$${state.totalExpense.toStringAsFixed(0)}",
+                          data: state.categoryItems,
+                        ),
+                      ),
 
-            for (var tx in expenses) {
-              totalExpense += tx.amount;
-              categoryTotals[tx.category] =
-                  (categoryTotals[tx.category] ?? 0) + tx.amount;
-              // Save one tx to get icon and color
-              categoryMeta.putIfAbsent(tx.category, () => tx);
-            }
+                      SizedBox(height: context.h(0.02)),
 
-            // Prepare Data List
-            final List<Map<String, dynamic>> categorySpendingItems = [];
-            final List<DonutChartData> chartData = [];
+                      // Section Header
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.translate(AppStrings.spendingByCategory),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
 
-            categoryTotals.forEach((category, amount) {
-              final meta = categoryMeta[category]!;
-              final percentage = amount / totalExpense;
+                      SizedBox(height: context.h(0.01)),
 
-              categorySpendingItems.add({
-                "category": category,
-                "amount": '\$$amount',
-                "percentage": "${(percentage * 100).toStringAsFixed(0)}%",
-                "progress": percentage,
-                "color": meta.color,
-                "icon": meta.icon,
-                "rawAmount": amount, // for sorting
-              });
+                      // List Items
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.categoryItems.length,
+                          itemBuilder: (context, index) {
+                            final item = state.categoryItems[index];
+                            return CategorySpendingItem(
+                              category: item.category,
+                              amount: "\$${item.amount.toStringAsFixed(0)}",
+                              percentage:
+                                  "${(item.percentage * 100).toStringAsFixed(0)}%",
+                              progress: item.percentage,
+                              color: item.color,
+                              icon: item.icon,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                );
+              }
 
-              chartData.add(DonutChartData(amount, meta.color));
-            });
-
-            // Sort by amount descending
-            categorySpendingItems.sort(
-              (a, b) => (b["rawAmount"] as double).compareTo(
-                a["rawAmount"] as double,
-              ),
-            );
-
-            return Column(
-              children: [
-                // Donut Chart
-                SizedBox(
-                  height: context.h(0.3),
-                  child: DonutChart(
-                    totalAmount: "\$${totalExpense.toStringAsFixed(0)}",
-                    data: chartData,
-                  ),
-                ),
-
-                // Section Header
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "SPENDING BY CATEGORY",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                SizedBox(height: context.h(0.01)),
-                // List Items
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: categorySpendingItems.length,
-                    itemBuilder: (context, index) {
-                      final item = categorySpendingItems[index];
-                      return CategorySpendingItem(
-                        category: item["category"],
-                        amount: item["amount"],
-                        percentage: item["percentage"],
-                        progress: item["progress"],
-                        color: item["color"],
-                        icon: item["icon"],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
+              return const SizedBox();
+            },
+          ),
         ),
       ),
     );

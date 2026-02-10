@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../core/utils/app_routes.dart';
 import 'cubit/main_scaffold_cubit.dart';
 import 'cubit/main_scaffold_state.dart';
@@ -13,32 +15,40 @@ import 'model/nav_item_model.dart';
 class MainScaffoldScreen extends StatelessWidget {
   const MainScaffoldScreen({super.key});
 
-  static const List<NavItemModel> _navItems = [
-    NavItemModel(
-      page: HomeScreen(),
-      appBarTitle: "Home",
-      navLabel: "Home",
-      icon: Icons.grid_view,
-    ),
-    NavItemModel(
-      page: TransactionsScreen(),
-      appBarTitle: "Transactions History",
-      navLabel: "History",
-      icon: Icons.history,
-    ),
-    NavItemModel(
-      page: StatsScreen(),
-      appBarTitle: "Statistics",
-      navLabel: "Stats",
-      icon: Icons.bar_chart,
-    ),
-    NavItemModel(
-      page: ProfileAndSettingsScreen(),
-      appBarTitle: "Profile & Settings",
-      navLabel: "Profile",
-      icon: Icons.person,
-    ),
-  ];
+  static List<NavItemModel> _getNavItems(BuildContext context) {
+    return [
+      NavItemModel(
+        page: const HomeScreen(),
+        appBarTitle: AppLocalizations.of(context)!.translate(AppStrings.home),
+        navLabel: AppLocalizations.of(context)!.translate(AppStrings.home),
+        icon: Icons.grid_view,
+      ),
+      NavItemModel(
+        page: const TransactionsScreen(),
+        appBarTitle: AppLocalizations.of(
+          context,
+        )!.translate(AppStrings.transactionsHistory),
+        navLabel: AppLocalizations.of(context)!.translate(AppStrings.history),
+        icon: Icons.history,
+      ),
+      NavItemModel(
+        page: const StatsScreen(),
+        appBarTitle: AppLocalizations.of(
+          context,
+        )!.translate(AppStrings.statistics),
+        navLabel: AppLocalizations.of(context)!.translate(AppStrings.stats),
+        icon: Icons.bar_chart,
+      ),
+      NavItemModel(
+        page: const ProfileAndSettingsScreen(),
+        appBarTitle: AppLocalizations.of(
+          context,
+        )!.translate(AppStrings.profileSettings),
+        navLabel: AppLocalizations.of(context)!.translate(AppStrings.profile),
+        icon: Icons.person,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +58,16 @@ class MainScaffoldScreen extends StatelessWidget {
       child: BlocBuilder<MainScaffoldCubit, MainScaffoldState>(
         builder: (context, state) {
           final int index = state.selectedIndex;
+          final navItems = _getNavItems(context);
           return Scaffold(
             appBar: _buildAppBar(
               context: context,
               index: index,
-              navItem: _navItems[index],
+              navItem: navItems[index],
             ),
 
             // body
-            body: _navItems[index].page,
+            body: navItems[index].page,
 
             // floating action button
             floatingActionButton: index < 3
@@ -72,7 +83,7 @@ class MainScaffoldScreen extends StatelessWidget {
             // bottom navigation bar
             bottomNavigationBar: MainBottomNavBar(
               selectedIndex: index,
-              navItems: _navItems,
+              navItems: navItems,
               onItemTapped: (index) =>
                   context.read<MainScaffoldCubit>().changeIndex(index),
             ),
@@ -94,7 +105,10 @@ PreferredSizeWidget _buildAppBar({
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Welcome back,", style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            AppLocalizations.of(context)!.translate(AppStrings.welcomeBack),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           Text(
             // TODO: get user name from firebase
             "Mohamed ElTahan",

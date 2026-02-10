@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/theme/colors_manager.dart';
 import '../../../../core/extension/media_query_extension.dart';
 import '../auth/widgets/primary_button.dart';
@@ -71,26 +73,42 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           if (state.status == AddTransactionStatus.success) {
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Transaction added successfully!")),
+              SnackBar(
+                content: Text(
+                  AppLocalizations.of(
+                    context,
+                  )!.translate(AppStrings.transactionAdded),
+                ),
+              ),
             );
           } else if (state.status == AddTransactionStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage ?? "Error adding transaction"),
+                content: Text(
+                  state.errorMessage ??
+                      AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.errorAddingTransaction),
+                ),
               ),
             );
           }
         },
         builder: (context, state) {
           return Scaffold(
-            //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
               leading: TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
+                child: Text(
+                  AppLocalizations.of(context)!.translate(AppStrings.cancel),
+                ),
               ),
               leadingWidth: context.w(0.2),
-              title: const Text("Add Transaction"),
+              title: Text(
+                AppLocalizations.of(
+                  context,
+                )!.translate(AppStrings.addTransaction),
+              ),
             ),
             body: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: context.w(0.04)),
@@ -120,8 +138,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     iconBgColor: state.selectedCategoryColor.withValues(
                       alpha: 0.1,
                     ),
-                    label: "Category",
-                    value: state.selectedCategory,
+                    label: AppLocalizations.of(
+                      context,
+                    )!.translate(AppStrings.category),
+                    value: AppLocalizations.of(
+                      context,
+                    )!.translate(state.selectedCategory),
                     onTap: () => _showCategorySheet(context, state.isExpense),
                   ),
                   SizedBox(height: context.h(0.015)),
@@ -129,8 +151,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     icon: Icons.calendar_today,
                     iconColor: Colors.orange,
                     iconBgColor: Colors.orange.withValues(alpha: 0.1),
-                    label: "Date",
-                    value: DateFormat('EEEE, MMM d').format(state.selectedDate),
+                    label: AppLocalizations.of(
+                      context,
+                    )!.translate(AppStrings.date),
+                    value: DateFormat(
+                      'EEEE, MMM d',
+                      Localizations.localeOf(context).toString(),
+                    ).format(state.selectedDate),
                     trailingIcon: Icons.edit_calendar,
                     onTap: () => _selectDate(context, state.selectedDate),
                   ),
@@ -138,16 +165,22 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   SizedBox(height: context.h(0.03)),
 
                   // Notes
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
-                    child: CustomLabelField(label: "Notes"),
+                    child: CustomLabelField(
+                      label: AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.notes),
+                    ),
                   ),
                   SizedBox(height: context.h(0.015)),
                   TextField(
                     controller: _noteController,
                     maxLines: 4,
                     decoration: InputDecoration(
-                      hintText: "What was this for?",
+                      hintText: AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.whatWasThisFor),
                       hintStyle: const TextStyle(color: ColorsManager.textGrey),
                       filled: true,
                       fillColor: Theme.of(
@@ -163,8 +196,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
                   PrimaryButton(
                     text: state.status == AddTransactionStatus.loading
-                        ? "Saving..."
-                        : "Save Transaction",
+                        ? AppLocalizations.of(
+                            context,
+                          )!.translate(AppStrings.saving)
+                        : AppLocalizations.of(
+                            context,
+                          )!.translate(AppStrings.saveTransaction),
                     onPressed: state.status == AddTransactionStatus.loading
                         ? () {}
                         : () {

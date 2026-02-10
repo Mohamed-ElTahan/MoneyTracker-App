@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/localization/app_localizations.dart';
+import '../../../core/localization/app_strings.dart';
 import '../../../core/theme/colors_manager.dart';
 
 class CustomLogoutButton extends StatelessWidget {
@@ -24,8 +26,8 @@ class CustomLogoutButton extends StatelessWidget {
           color: ColorsManager.expenseRed,
           size: 24,
         ),
-        label: const Text(
-          "Logout",
+        label: Text(
+          AppLocalizations.of(context)!.translate(AppStrings.logout),
           style: TextStyle(
             color: ColorsManager.expenseRed,
             fontWeight: FontWeight.bold,

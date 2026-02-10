@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/colors_manager.dart';
 import '../../core/extension/media_query_extension.dart';
 import '../../core/utils/app_routes.dart';
+import '../../core/localization/app_localizations.dart';
+import '../../core/localization/app_strings.dart';
 import 'cubit/profile/profile_cubit.dart';
 import 'cubit/profile/profile_state.dart';
 import 'cubit/setting/setting_cubit.dart';
@@ -40,7 +42,11 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
         } else if (state is ProfileLogoutError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Logout failed'),
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                )!.translate(AppStrings.logoutFailed),
+              ),
               backgroundColor: ColorsManager.expenseRed,
             ),
           );
@@ -70,7 +76,11 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
             SizedBox(height: context.h(0.04)),
 
             // Preferences
-            const SectionHeader(title: "PREFERENCES"),
+            SectionHeader(
+              title: AppLocalizations.of(
+                context,
+              )!.translate(AppStrings.preferences),
+            ),
             SizedBox(height: context.h(0.02)),
             BlocBuilder<SettingCubit, SettingState>(
               builder: (context, state) {
@@ -78,7 +88,9 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
                   children: [
                     SettingsTile(
                       icon: Icons.dark_mode,
-                      title: "Dark Mode",
+                      title: AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.darkMode),
                       onTap: () => context.read<SettingCubit>().toggleTheme(),
                       trailing: Switch(
                         value: state.settingModel.isDarkMode,
@@ -90,7 +102,9 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
                     SizedBox(height: context.h(0.015)),
                     SettingsTile(
                       icon: Icons.currency_exchange,
-                      title: "Currency",
+                      title: AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.currency),
                       subtitle: state.settingModel.currency,
                       onTap: () =>
                           context.read<SettingCubit>().toggleCurrency(),
@@ -98,7 +112,9 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
                     SizedBox(height: context.h(0.015)),
                     SettingsTile(
                       icon: Icons.language,
-                      title: "Language",
+                      title: AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.language),
                       subtitle: state.settingModel.language,
                       onTap: () =>
                           context.read<SettingCubit>().toggleLanguage(),
@@ -110,7 +126,9 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
             SizedBox(height: context.h(0.015)),
             SettingsTile(
               icon: Icons.help_outline,
-              title: "Help & Support",
+              title: AppLocalizations.of(
+                context,
+              )!.translate(AppStrings.helpSupport),
               onTap: () {},
             ),
 
@@ -129,7 +147,7 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
 
             SizedBox(height: context.h(0.03)),
             Text(
-              "MoneyWise App v1.0.0",
+              AppLocalizations.of(context)!.translate(AppStrings.appVersion),
               style: Theme.of(context).textTheme.titleSmall,
             ),
             SizedBox(height: context.h(0.01)),

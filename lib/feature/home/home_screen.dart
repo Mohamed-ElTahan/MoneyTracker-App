@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/theme/colors_manager.dart';
 import '../main_scaffold/cubit/main_scaffold_cubit.dart';
 import '../transactions/cubit/transaction_cubit.dart';
@@ -50,8 +52,10 @@ class _HomeScreenBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Recent Transactions",
+                      Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.translate(AppStrings.recentTransactions),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -61,7 +65,11 @@ class _HomeScreenBody extends StatelessWidget {
                       TextButton(
                         onPressed: () =>
                             context.read<MainScaffoldCubit>().changeIndex(1),
-                        child: const Text("See All"),
+                        child: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.translate(AppStrings.seeAll),
+                        ),
                       ),
                     ],
                   ),

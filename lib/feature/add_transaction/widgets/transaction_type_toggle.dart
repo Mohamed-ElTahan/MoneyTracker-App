@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/colors_manager.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 
 class TransactionTypeToggle extends StatelessWidget {
   final bool isExpense;
@@ -21,25 +23,44 @@ class TransactionTypeToggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: _buildButton("Expense", isExpense)),
-          Expanded(child: _buildButton("Income", !isExpense)),
+          Expanded(
+            child: _buildButton(
+              context,
+              AppLocalizations.of(context)!.translate(AppStrings.expense),
+              true,
+              isExpense,
+            ),
+          ),
+          Expanded(
+            child: _buildButton(
+              context,
+              AppLocalizations.of(context)!.translate(AppStrings.income),
+              false,
+              !isExpense,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildButton(String text, bool isSelected) {
+  Widget _buildButton(
+    BuildContext context,
+    String text,
+    bool isExpenseType,
+    bool isSelected,
+  ) {
     return GestureDetector(
       onTap: () {
         if (!isSelected) {
-          onTypeChanged(text == "Expense");
+          onTypeChanged(isExpenseType);
         }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? (text == "Expense"
+              ? (isExpenseType
                     ? ColorsManager.expenseRed
                     : ColorsManager.successGreen)
               : Colors.transparent,
@@ -48,7 +69,7 @@ class TransactionTypeToggle extends StatelessWidget {
               ? [
                   BoxShadow(
                     color:
-                        (text == "Expense"
+                        (isExpenseType
                                 ? ColorsManager.expenseRed
                                 : ColorsManager.successGreen)
                             .withValues(alpha: 0.3),
