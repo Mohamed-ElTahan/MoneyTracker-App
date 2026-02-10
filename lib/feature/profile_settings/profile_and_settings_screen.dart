@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/colors_manager.dart';
 import '../../core/extension/media_query_extension.dart';
-import '../auth/login/login_screen.dart';
-import 'cubit/profile_cubit.dart';
-import 'cubit/profile_state.dart';
+import '../../core/utils/app_routes.dart';
+import 'cubit/profile/profile_cubit.dart';
+import 'cubit/profile/profile_state.dart';
+import 'cubit/setting/setting_cubit.dart';
+import 'cubit/setting/setting_state.dart';
 import 'widgets/custom_logout_button.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/section_header.dart';
@@ -16,121 +18,122 @@ class ProfileAndSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileSettingsCubit()..getUserName(),
-      child: BlocListener<ProfileSettingsCubit, ProfileState>(
-        listener: (context, state) {
-          if (state.logoutSuccess) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-              (route) => false,
-            );
-          } else if (state.logoutError != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Logout failed: ${state.logoutError}'),
-                backgroundColor: ColorsManager.expenseRed,
-              ),
-            );
-          }
-        },
-        child: Scaffold(
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Column(
-              children: [
-                // Profile Header
-                BlocBuilder<ProfileSettingsCubit, ProfileState>(
-                  builder: (context, state) {
-                    if (state.userModel == null) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return ProfileHeader(
-                      name: state.userModel!.name,
-                      email: state.userModel!.email,
-                      onEditPressed: () {},
-                    );
-                  },
-                ),
+      create: (context) => ProfileCubit()..getUserModel(),
+      child: const _ProfileAndSettingsScreen(),
+    );
+  }
+}
 
-                SizedBox(height: context.h(0.04)),
+class _ProfileAndSettingsScreen extends StatelessWidget {
+  const _ProfileAndSettingsScreen();
 
-                // Preferences
-                const SectionHeader(title: "PREFERENCES"),
-                SizedBox(height: context.h(0.02)),
-                BlocBuilder<ProfileSettingsCubit, ProfileState>(
-                  builder: (context, state) {
-                    return Column(
-                      children: [
-                        SettingsTile(
-                          icon: Icons.dark_mode,
-                          title: "Dark Mode",
-                          onTap: () => context
-                              .read<ProfileSettingsCubit>()
-                              .toggleTheme(),
-                          trailing: Switch(
-                            value: state.isDarkMode,
-                            onChanged: (val) {
-                              context
-                                  .read<ProfileSettingsCubit>()
-                                  .toggleTheme();
-                            },
-                            activeThumbColor: ColorsManager.primaryBlue,
-                          ),
-                        ),
-                        SizedBox(height: context.h(0.015)),
-                        SettingsTile(
-                          icon: Icons.currency_exchange,
-                          title: "Currency",
-                          subtitle: state.currency,
-                          onTap: () => context
-                              .read<ProfileSettingsCubit>()
-                              .toggleCurrency(),
-                        ),
-                        SizedBox(height: context.h(0.015)),
-                        SettingsTile(
-                          icon: Icons.language,
-                          title: "Language",
-                          subtitle: state.language,
-                          onTap: () => context
-                              .read<ProfileSettingsCubit>()
-                              .toggleLanguage(),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(height: context.h(0.015)),
-                SettingsTile(
-                  icon: Icons.help_outline,
-                  title: "Help & Support",
-                  onTap: () {},
-                ),
-
-                SizedBox(height: context.h(0.04)),
-
-                // Logout Button
-                BlocBuilder<ProfileSettingsCubit, ProfileState>(
-                  builder: (context, state) {
-                    return state.isLoggingOut
-                        ? const Center(child: CircularProgressIndicator())
-                        : CustomLogoutButton(
-                            onTap: () {
-                              context.read<ProfileSettingsCubit>().logout();
-                            },
-                          );
-                  },
-                ),
-
-                SizedBox(height: context.h(0.03)),
-                Text(
-                  "MoneyWise App v1.0.0",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                SizedBox(height: context.h(0.01)),
-              ],
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileLogoutSuccess) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.login,
+            (route) => false,
+          );
+        } else if (state is ProfileLogoutError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Logout failed'),
+              backgroundColor: ColorsManager.expenseRed,
             ),
-          ),
+          );
+        }
+      },
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Column(
+          children: [
+            // Profile Header
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ProfileSuccess) {
+                  return ProfileHeader(
+                    name: state.userModel.name,
+                    email: state.userModel.email,
+                    onEditPressed: () {},
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+
+            SizedBox(height: context.h(0.04)),
+
+            // Preferences
+            const SectionHeader(title: "PREFERENCES"),
+            SizedBox(height: context.h(0.02)),
+            BlocBuilder<SettingCubit, SettingState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    SettingsTile(
+                      icon: Icons.dark_mode,
+                      title: "Dark Mode",
+                      onTap: () => context.read<SettingCubit>().toggleTheme(),
+                      trailing: Switch(
+                        value: state.settingModel.isDarkMode,
+                        onChanged: (_) =>
+                            context.read<SettingCubit>().toggleTheme(),
+                        activeThumbColor: ColorsManager.primaryBlue,
+                      ),
+                    ),
+                    SizedBox(height: context.h(0.015)),
+                    SettingsTile(
+                      icon: Icons.currency_exchange,
+                      title: "Currency",
+                      subtitle: state.settingModel.currency,
+                      onTap: () =>
+                          context.read<SettingCubit>().toggleCurrency(),
+                    ),
+                    SizedBox(height: context.h(0.015)),
+                    SettingsTile(
+                      icon: Icons.language,
+                      title: "Language",
+                      subtitle: state.settingModel.language,
+                      onTap: () =>
+                          context.read<SettingCubit>().toggleLanguage(),
+                    ),
+                  ],
+                );
+              },
+            ),
+            SizedBox(height: context.h(0.015)),
+            SettingsTile(
+              icon: Icons.help_outline,
+              title: "Help & Support",
+              onTap: () {},
+            ),
+
+            SizedBox(height: context.h(0.04)),
+
+            // Logout Button
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                return state is ProfileLogoutLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomLogoutButton(
+                        onTap: () => context.read<ProfileCubit>().logout(),
+                      );
+              },
+            ),
+
+            SizedBox(height: context.h(0.03)),
+            Text(
+              "MoneyWise App v1.0.0",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            SizedBox(height: context.h(0.01)),
+          ],
         ),
       ),
     );

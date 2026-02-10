@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/colors_manager.dart';
 
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({super.key});
+  final double totalBalance;
+
+  const BalanceCard({super.key, required this.totalBalance});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +17,7 @@ class BalanceCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF1976D2), // Primary Blue
-            Color(0xFF1565C0), // Darker Blue
-          ],
+          colors: [Color(0xFF1976D2), Color(0xFF1565C0)],
         ),
         boxShadow: [
           BoxShadow(
@@ -39,38 +38,14 @@ class BalanceCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            "\$12,450.00",
-            style: TextStyle(
+          Text(
+            '\$$totalBalance',
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 36,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 24),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.account_balance_wallet_outlined,
-                    color: Colors.white, size: 18),
-                SizedBox(width: 8),
-                Text(
-                  "Checking Account •••• 4291",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );

@@ -26,7 +26,7 @@ class CategorySpendingItem extends StatelessWidget {
       margin: EdgeInsets.only(bottom: context.h(0.015)),
       padding: EdgeInsets.all(context.w(0.04)),
       decoration: BoxDecoration(
-        color: ColorsManager.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(context.w(0.05)),
         boxShadow: [
           BoxShadow(

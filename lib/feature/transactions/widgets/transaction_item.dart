@@ -28,13 +28,13 @@ class TransactionItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ColorsManager.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
+            color: Colors.black.withValues(alpha: 0.05),
             offset: const Offset(0, 4),
+            blurRadius: 16,
           ),
         ],
       ),
@@ -53,14 +53,18 @@ class TransactionItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   date,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: ColorsManager.textGrey,
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontSize: 12),
                 ),
               ],
             ),
@@ -71,6 +75,7 @@ class TransactionItem extends StatelessWidget {
               color: isNegative
                   ? ColorsManager.expenseRed
                   : ColorsManager.successGreen,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

@@ -16,25 +16,25 @@ class MainScaffoldScreen extends StatelessWidget {
   static const List<NavItemModel> _navItems = [
     NavItemModel(
       page: HomeScreen(),
-      title: "Home",
+      appBarTitle: "Home",
       navLabel: "Home",
       icon: Icons.grid_view,
     ),
     NavItemModel(
       page: TransactionsScreen(),
-      title: "Transactions History",
+      appBarTitle: "Transactions History",
       navLabel: "History",
       icon: Icons.history,
     ),
     NavItemModel(
       page: StatsScreen(),
-      title: "Statistics",
+      appBarTitle: "Statistics",
       navLabel: "Stats",
       icon: Icons.bar_chart,
     ),
     NavItemModel(
       page: ProfileAndSettingsScreen(),
-      title: "Profile & Settings",
+      appBarTitle: "Profile & Settings",
       navLabel: "Profile",
       icon: Icons.person,
     ),
@@ -59,7 +59,7 @@ class MainScaffoldScreen extends StatelessWidget {
             body: _navItems[index].page,
 
             // floating action button
-            floatingActionButton: index < 2
+            floatingActionButton: index < 3
                 ? FloatingActionButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, AppRoutes.addTransaction),
@@ -96,7 +96,7 @@ PreferredSizeWidget _buildAppBar({
         children: [
           Text("Welcome back,", style: Theme.of(context).textTheme.bodyMedium),
           Text(
-            // TODO: get user name from Hive
+            // TODO: get user name from firebase
             "Mohamed ElTahan",
             style: Theme.of(context).textTheme.titleMedium,
           ),
@@ -107,10 +107,10 @@ PreferredSizeWidget _buildAppBar({
           padding: const EdgeInsets.only(right: 16.0),
           child: InkWell(
             onTap: () => context.read<MainScaffoldCubit>().changeIndex(3),
-            child: const CircleAvatar(
-              radius: 20,
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/profileIcon.png'),
+              radius: 25,
               backgroundColor: Color(0xFFE0F7FA),
-              child: Icon(Icons.person, color: Color(0xFF006064)),
             ),
           ),
         ),
@@ -118,5 +118,5 @@ PreferredSizeWidget _buildAppBar({
     );
   }
 
-  return AppBar(title: Text(navItem.title));
+  return AppBar(title: Text(navItem.appBarTitle));
 }
