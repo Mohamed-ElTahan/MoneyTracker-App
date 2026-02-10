@@ -10,25 +10,18 @@ class TransactionAmountInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "AMOUNT",
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: ColorsManager.textGrey,
-            letterSpacing: 1.2,
-          ),
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "\$",
-              style: TextStyle(
-                fontSize: 40,
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                color: ColorsManager.textGrey,
                 fontWeight: FontWeight.bold,
-                color: ColorsManager.primaryBlue,
               ),
             ),
+            const SizedBox(width: 4),
             IntrinsicWidth(
               child: TextField(
                 controller: controller,
@@ -36,7 +29,16 @@ class TransactionAmountInput extends StatelessWidget {
                   decimal: true,
                 ),
                 style: Theme.of(context).textTheme.displaySmall,
-                decoration: const InputDecoration(border: InputBorder.none),
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "0.00",
+                  hintStyle: TextStyle(color: ColorsManager.textGrey),
+                ),
+                onTap: () {
+                  if (controller.text == '0.00') {
+                    controller.clear();
+                  }
+                },
               ),
             ),
           ],

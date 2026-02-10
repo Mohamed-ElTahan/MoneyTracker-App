@@ -38,13 +38,22 @@ class TransactionTypeToggle extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? ColorsManager.white : Colors.transparent,
+          color: isSelected
+              ? (text == "Expense"
+                    ? ColorsManager.expenseRed
+                    : ColorsManager.successGreen)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color:
+                        (text == "Expense"
+                                ? ColorsManager.expenseRed
+                                : ColorsManager.successGreen)
+                            .withValues(alpha: 0.3),
                     blurRadius: 4,
+                    offset: const Offset(0, 2),
                   ),
                 ]
               : [],
@@ -54,7 +63,7 @@ class TransactionTypeToggle extends StatelessWidget {
           text,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: isSelected ? ColorsManager.textDark : ColorsManager.textGrey,
+            color: isSelected ? Colors.white : ColorsManager.textGrey,
           ),
         ),
       ),

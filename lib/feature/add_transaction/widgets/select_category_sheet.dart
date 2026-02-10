@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/colors_manager.dart';
 
 class SelectCategorySheet extends StatelessWidget {
+  final bool isExpense;
   final Function(String, IconData, Color) onCategorySelected;
 
-  const SelectCategorySheet({super.key, required this.onCategorySelected});
+  const SelectCategorySheet({
+    super.key,
+    required this.isExpense,
+    required this.onCategorySelected,
+  });
 
-  final List<Map<String, dynamic>> categories = const [
+  final List<Map<String, dynamic>> expenseCategories = const [
     {
       'name': 'Food & Drink',
       'icon': Icons.fastfood,
@@ -32,15 +37,26 @@ class SelectCategorySheet extends StatelessWidget {
     },
   ];
 
+  final List<Map<String, dynamic>> incomeCategories = const [
+    {'name': 'Salary', 'icon': Icons.attach_money, 'color': Colors.green},
+    {'name': 'Business', 'icon': Icons.business, 'color': Colors.blue},
+    {'name': 'Investment', 'icon': Icons.trending_up, 'color': Colors.purple},
+    {'name': 'Gift', 'icon': Icons.card_giftcard, 'color': Colors.orange},
+    {'name': 'Other', 'icon': Icons.more_horiz, 'color': Colors.teal},
+  ];
+
+  List<Map<String, dynamic>> get categories =>
+      isExpense ? expenseCategories : incomeCategories;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       // Half screen height
       height: MediaQuery.of(context).size.height * 0.5,
-      decoration: const BoxDecoration(
-        color: ColorsManager.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +97,7 @@ class SelectCategorySheet extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: ColorsManager.background,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: ColorsManager.lightGrey.withValues(alpha: 0.3),
