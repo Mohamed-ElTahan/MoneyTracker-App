@@ -1,105 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/colors_manager.dart';
-import '../transactions/widgets/transaction_item.dart';
+import '../main_scaffold/cubit/main_scaffold_cubit.dart';
+import '../transactions/cubit/transaction_cubit.dart';
+import '../transactions/cubit/transaction_state.dart';
+import '../transactions/widgets/transaction_list_widget.dart';
 import 'widgets/balance_card.dart';
 import 'widgets/income_expense_row.dart';
-import 'widgets/spending_chart.dart';
 import '../../../../core/extension/media_query_extension.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => TransactionCubit()..loadData(),
+      child: const _HomeScreenBody(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenBody extends StatelessWidget {
+  const _HomeScreenBody();
+
   @override
   Widget build(BuildContext context) {
-    final double paddingHorizontal = context.w(0.06);
-
     return SafeArea(
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            const BalanceCard(),
-            SizedBox(height: context.h(0.03)),
-            const IncomeExpenseRow(),
-            SizedBox(height: context.h(0.03)),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Monthly Summary",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: ColorsManager.textDark,
+        padding: EdgeInsets.symmetric(horizontal: context.w(0.06)),
+        child: BlocBuilder<TransactionCubit, TransactionState>(
+          builder: (context, state) {
+            if (state is TransactionLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is TransactionError) {
+              return Center(child: Text("Error: ${state.message}"));
+            } else if (state is TransactionSuccess) {
+              return Column(
+                children: [
+                  const SizedBox(height: 8),
+                  BalanceCard(totalBalance: state.totalBalance),
+                  SizedBox(height: context.h(0.03)),
+                  IncomeExpenseRow(
+                    income: state.totalIncome,
+                    expense: state.totalExpense,
                   ),
-                ),
-                TextButton(onPressed: () {}, child: const Text("Details")),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const SpendingChart(),
-            SizedBox(height: context.h(0.03)),
+                  SizedBox(height: context.h(0.03)),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Recent Transactions",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: ColorsManager.textDark,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Recent Transactions",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsManager.primaryBlue,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () =>
+                            context.read<MainScaffoldCubit>().changeIndex(1),
+                        child: const Text("See All"),
+                      ),
+                    ],
                   ),
-                ),
-                TextButton(onPressed: () {}, child: const Text("See All")),
-              ],
-            ),
-            const SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
-            // Transactions List
-            TransactionItem(
-              title: "Starbucks Coffee",
-              date: "Today, 09:41 AM",
-              amount: "-\$5.50",
-              icon: Icons.coffee,
-              iconBgColor: Colors.orange.shade50,
-              iconColor: Colors.orange,
-            ),
-            TransactionItem(
-              title: "Apple Store",
-              date: "Yesterday, 04:20 PM",
-              amount: "-\$129.00",
-              icon: Icons.shopping_bag, // Or generic cart
-              iconBgColor: Colors.blue.shade50,
-              iconColor: Colors.blue,
-            ),
-            TransactionItem(
-              title: "Monthly Salary",
-              date: "Oct 28, 2023",
-              amount: "+\$4,200.00",
-              icon: Icons.attach_money,
-              iconBgColor: Colors.green.shade50,
-              iconColor: ColorsManager.successGreen,
-              isNegative: false,
-            ),
-            TransactionItem(
-              title: "Netflix Subscription",
-              date: "Oct 25, 2023",
-              amount: "-\$15.00",
-              icon: Icons.movie,
-              iconBgColor: Colors.purple.shade50,
-              iconColor: Colors.purple,
-            ),
-            SizedBox(height: context.h(0.1)),
-          ],
+                  // Transactions List
+                  TransactionListWidget(transactions: state.recentTransactions),
+                  SizedBox(height: context.h(0.1)),
+                ],
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );
