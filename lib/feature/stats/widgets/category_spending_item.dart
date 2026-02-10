@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/colors_manager.dart';
 import '../../../core/extension/media_query_extension.dart';
+import '../../../core/localization/app_localizations.dart';
 
 class CategorySpendingItem extends StatelessWidget {
   final String category;
@@ -55,7 +56,7 @@ class CategorySpendingItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      category,
+                      AppLocalizations.of(context)!.translate(category),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
