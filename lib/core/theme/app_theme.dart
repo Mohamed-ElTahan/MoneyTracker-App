@@ -6,10 +6,6 @@ class AppTheme {
     return ThemeData(
       primaryColor: ColorsManager.primaryBlue,
       scaffoldBackgroundColor: ColorsManager.background,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: ColorsManager.primaryBlue,
-        surface: ColorsManager.background,
-      ),
       useMaterial3: true,
       fontFamily: 'Roboto',
 
@@ -18,7 +14,6 @@ class AppTheme {
         backgroundColor: ColorsManager.white,
         foregroundColor: ColorsManager.black,
         elevation: 0,
-        iconTheme: IconThemeData(color: ColorsManager.black),
         centerTitle: true,
         titleTextStyle: TextStyle(
           color: ColorsManager.black,
@@ -49,6 +44,16 @@ class AppTheme {
           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
+
+      // ListTile Theme
+      listTileTheme: ListTileThemeData(
+        tileColor: ColorsManager.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+
+      // Card Color
+      cardColor: ColorsManager.white,
 
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
@@ -145,6 +150,159 @@ class AppTheme {
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: ColorsManager.textGrey,
+        ),
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+      primaryColor: ColorsManager.primaryBlue,
+      scaffoldBackgroundColor: ColorsManager.darkBackground,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: ColorsManager.primaryBlue,
+        surface: ColorsManager.darkBackground,
+        brightness: Brightness.dark,
+      ),
+      useMaterial3: true,
+      fontFamily: 'Roboto',
+
+      // AppBar Theme
+      appBarTheme: const AppBarTheme(
+        backgroundColor: ColorsManager.darkSurface,
+        foregroundColor: ColorsManager.white,
+        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: ColorsManager.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+      // floating action button theme
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: ColorsManager.primaryBlue,
+        foregroundColor: ColorsManager.white,
+        elevation: 0,
+        iconSize: 30,
+        shape: CircleBorder(),
+      ),
+
+      // ElevatedButton Theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorsManager.primaryBlue,
+          foregroundColor: ColorsManager.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ),
+
+      // ListTile Theme
+      listTileTheme: ListTileThemeData(
+        tileColor: ColorsManager.darkSurface,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+
+      // Card Color
+      cardColor: ColorsManager.darkSurface,
+
+      // Input Decoration Theme
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: ColorsManager.darkSurface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: ColorsManager.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: ColorsManager.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: ColorsManager.primaryBlue,
+            width: 2,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: ColorsManager.expenseRed, width: 2),
+        ),
+        errorMaxLines: 2,
+        errorStyle: TextStyle(
+          color: ColorsManager.expenseRed,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        hintStyle: const TextStyle(color: ColorsManager.textGrey),
+      ),
+
+      // Text Theme
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        headlineMedium: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        headlineSmall: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        titleLarge: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        titleMedium: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 16,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 14,
+          color: ColorsManager.darkTextSecondary,
+        ),
+        labelLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.primaryBlue,
+        ),
+        displaySmall: TextStyle(
+          fontSize: 48,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.darkTextPrimary,
+        ),
+        labelSmall: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: ColorsManager.darkTextSecondary,
+        ),
+        titleSmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: ColorsManager.darkTextSecondary,
         ),
       ),
     );
