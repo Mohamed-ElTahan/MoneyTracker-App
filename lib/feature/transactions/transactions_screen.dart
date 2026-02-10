@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/extension/media_query_extension.dart';
 import 'cubit/transaction_cubit.dart';
 import 'cubit/transaction_state.dart';
@@ -32,9 +34,11 @@ class _TransactionsScreenBody extends StatelessWidget {
         children: [
           // Search Bar
           TextField(
-            decoration: const InputDecoration(
-              hintText: "Search transactions...",
-              prefixIcon: Icon(Icons.search),
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(
+                context,
+              )!.translate(AppStrings.searchTransactions),
+              prefixIcon: const Icon(Icons.search),
             ),
             onChanged: (value) {
               // TODO: Implement search logic in Cubit
@@ -55,7 +59,9 @@ class _TransactionsScreenBody extends StatelessWidget {
                   if (state.transactions.isEmpty) {
                     return Center(
                       child: Text(
-                        "No transactions yet",
+                        AppLocalizations.of(
+                          context,
+                        )!.translate(AppStrings.noTransactions),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );

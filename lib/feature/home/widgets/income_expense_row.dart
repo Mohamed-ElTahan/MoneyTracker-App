@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/theme/colors_manager.dart';
 
 class IncomeExpenseRow extends StatelessWidget {
@@ -17,7 +19,7 @@ class IncomeExpenseRow extends StatelessWidget {
       children: [
         Expanded(
           child: _StatCard(
-            title: "Income",
+            title: AppLocalizations.of(context)!.translate(AppStrings.income),
             amount: income.toString(),
 
             icon: Icons.arrow_downward,
@@ -28,7 +30,7 @@ class IncomeExpenseRow extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: _StatCard(
-            title: "Expenses",
+            title: AppLocalizations.of(context)!.translate(AppStrings.expense),
             amount: expense.toString(),
             icon: Icons.arrow_upward,
             color: ColorsManager.expenseRed,

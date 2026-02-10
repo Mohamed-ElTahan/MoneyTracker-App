@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/localization/app_strings.dart';
 import '../../../../core/theme/colors_manager.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -29,9 +31,9 @@ class BalanceCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
-            "Total Balance",
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.translate(AppStrings.totalBalance),
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 14,
               fontWeight: FontWeight.w500,
