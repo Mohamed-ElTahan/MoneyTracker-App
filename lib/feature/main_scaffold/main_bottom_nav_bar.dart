@@ -18,7 +18,7 @@ class MainBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
-      color: ColorsManager.white,
+      color: Theme.of(context).cardColor,
       notchMargin: 8,
       height: 70,
       child: Row(
