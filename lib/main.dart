@@ -1,21 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_tracker_app/feature/profile_settings/cubit/setting/setting_cubit.dart';
+import 'package:money_tracker_app/feature/profile_settings/cubit/setting/setting_state.dart';
 import 'core/localization/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/app_routes.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'feature/add_transaction/add_transaction_screen.dart';
 import 'feature/auth/login/login_screen.dart';
 import 'feature/auth/signup/signup_screen.dart';
 import 'feature/splash/splash_screen.dart';
 import 'feature/main_scaffold/main_scaffold_screen.dart';
-import 'feature/transactions/model/category_model.dart';
 import 'feature/transactions/model/transaction_model.dart';
 import 'firebase_options.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'feature/profile_settings/cubit/setting/setting_cubit.dart';
-import 'feature/profile_settings/cubit/setting/setting_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,10 +24,7 @@ void main() async {
 
   // Hive
   await Hive.initFlutter();
-  Hive.registerAdapter(TransactionTypeAdapter());
   Hive.registerAdapter(TransactionModelAdapter());
-  Hive.registerAdapter(CategoryModelAdapter());
-
   await Hive.openBox<TransactionModel>("transactions");
 
   runApp(const MainApp());
