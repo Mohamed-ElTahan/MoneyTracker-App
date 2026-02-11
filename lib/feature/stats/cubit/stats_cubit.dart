@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../core/data_source/hive_data_source.dart';
 import '../../transactions/model/transaction_model.dart';
 import '../model/category_stats_model.dart';
 import 'stats_states.dart';
+import '../../../core/theme/app_icons.dart';
 
 class StatsCubit extends Cubit<StatsStates> {
   StatsCubit() : super(StatsInitial());
@@ -21,9 +21,10 @@ class StatsCubit extends Cubit<StatsStates> {
       final Map<String, TransactionModel> meta = {};
 
       for (TransactionModel tx in allTransactions) {
-        if (tx.type == TransactionType.expense) {
+        if (!tx.isIncome) {
           totalExpense += tx.amount;
           totals[tx.category] = (totals[tx.category] ?? 0) + tx.amount;
+          // Store a representative transaction for icon/color lookup
           meta.putIfAbsent(tx.category, () => tx);
         }
       }
@@ -39,8 +40,8 @@ class StatsCubit extends Cubit<StatsStates> {
             category: category,
             amount: amount,
             percentage: percent,
-            color: txMeta.color,
-            icon: txMeta.icon,
+            color: AppIcons.getColor(txMeta.category),
+            icon: AppIcons.getIcon(txMeta.category),
           ),
         );
       });

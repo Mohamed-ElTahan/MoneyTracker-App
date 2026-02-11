@@ -4,7 +4,6 @@ import '../../../../core/theme/colors_manager.dart';
 class TransactionDetailTile extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
-  final Color iconBgColor;
   final String label;
   final String value;
   final VoidCallback? onTap;
@@ -14,7 +13,6 @@ class TransactionDetailTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.iconColor,
-    required this.iconBgColor,
     required this.label,
     required this.value,
     this.onTap,
@@ -36,7 +34,7 @@ class TransactionDetailTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: iconBgColor,
+                color: iconColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: iconColor),

@@ -23,9 +23,6 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
         ),
       );
     } else {
-      // Expense default: Reset or keep existing if it was expense
-      // For now, let's reset to "Select Category" if switching back to expense
-      // or keep it if it's already expense.
       if (!state.isExpense) {
         emit(
           state.copyWith(
@@ -83,17 +80,12 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
         return;
       }
 
-      final transaction = TransactionModel.create(
+      final transaction = TransactionModel(
         id: const Uuid().v4(),
-        title: note?.isNotEmpty == true ? note! : state.selectedCategory,
         amount: amount,
         date: state.selectedDate,
         category: state.selectedCategory,
-        type: state.isExpense
-            ? TransactionType.expense
-            : TransactionType.income,
-        icon: state.selectedCategoryIcon,
-        color: state.selectedCategoryColor,
+        isIncome: !state.isExpense,
       );
 
       await _hiveDataSource.addTransaction(transaction: transaction);

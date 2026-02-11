@@ -28,62 +28,61 @@ class _HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: context.w(0.06)),
-        child: BlocBuilder<TransactionCubit, TransactionState>(
-          builder: (context, state) {
-            if (state is TransactionLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is TransactionError) {
-              return Center(child: Text("Error: ${state.message}"));
-            } else if (state is TransactionSuccess) {
-              return Column(
-                children: [
-                  const SizedBox(height: 8),
-                  BalanceCard(totalBalance: state.totalBalance),
-                  SizedBox(height: context.h(0.03)),
-                  IncomeExpenseRow(
-                    income: state.totalIncome,
-                    expense: state.totalExpense,
-                  ),
-                  SizedBox(height: context.h(0.03)),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: context.w(0.06)),
+      child: BlocBuilder<TransactionCubit, TransactionState>(
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is TransactionError) {
+            return Center(child: Text("Error: ${state.message}"));
+          } else if (state is TransactionSuccess) {
+            return Column(
+              children: [
+                BalanceCard(totalBalance: state.totalBalance),
+                SizedBox(height: context.h(0.02)),
+                IncomeExpenseRow(
+                  income: state.totalIncome,
+                  expense: state.totalExpense,
+                ),
+                SizedBox(height: context.h(0.02)),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(
+                        context,
+                      )!.translate(AppStrings.recentTransactions),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: ColorsManager.primaryBlue,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          context.read<MainScaffoldCubit>().changeIndex(1),
+                      child: Text(
                         AppLocalizations.of(
                           context,
-                        )!.translate(AppStrings.recentTransactions),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsManager.primaryBlue,
-                        ),
+                        )!.translate(AppStrings.seeAll),
                       ),
-                      TextButton(
-                        onPressed: () =>
-                            context.read<MainScaffoldCubit>().changeIndex(1),
-                        child: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.translate(AppStrings.seeAll),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+                    ),
+                  ],
+                ),
 
-                  // Transactions List
-                  TransactionListWidget(transactions: state.recentTransactions),
-                  SizedBox(height: context.h(0.1)),
-                ],
-              );
-            }
-            return const SizedBox();
-          },
-        ),
+                // Transactions List
+                Expanded(
+                  child: TransactionListWidget(
+                    transactions: state.recentTransactions,
+                  ),
+                ),
+              ],
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }
