@@ -20,7 +20,7 @@ class TransactionCubit extends Cubit<TransactionState> {
           .cast<TransactionModel>();
 
       for (var tx in transactions) {
-        if (tx.type == TransactionType.income) {
+        if (tx.isIncome) {
           totalIncome += tx.amount;
         } else {
           totalExpense += tx.amount;

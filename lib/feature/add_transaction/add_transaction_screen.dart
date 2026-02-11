@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/localization/app_strings.dart';
 import '../../../../core/theme/colors_manager.dart';
+import '../../../../core/utils/app_routes.dart';
 import '../../../../core/extension/media_query_extension.dart';
 import '../auth/widgets/primary_button.dart';
 import '../auth/widgets/custom_label_field.dart';
@@ -71,7 +72,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       child: BlocConsumer<AddTransactionCubit, AddTransactionState>(
         listener: (context, state) {
           if (state.status == AddTransactionStatus.success) {
-            Navigator.pop(context);
+            Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -135,9 +138,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   TransactionDetailTile(
                     icon: state.selectedCategoryIcon,
                     iconColor: state.selectedCategoryColor,
-                    iconBgColor: state.selectedCategoryColor.withValues(
-                      alpha: 0.1,
-                    ),
                     label: AppLocalizations.of(
                       context,
                     )!.translate(AppStrings.category),
@@ -150,7 +150,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   TransactionDetailTile(
                     icon: Icons.calendar_today,
                     iconColor: Colors.orange,
-                    iconBgColor: Colors.orange.withValues(alpha: 0.1),
                     label: AppLocalizations.of(
                       context,
                     )!.translate(AppStrings.date),
