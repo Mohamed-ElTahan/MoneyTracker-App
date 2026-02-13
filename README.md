@@ -13,7 +13,7 @@
 
 **Your finances, simplified. A smart expense tracker built with Flutter, Firebase, and Hive.**
 
-<i>Feature-First Architecture • Offline Support • Real-time Sync</i>
+<i>Feature-First Architecture • Offline Support • Real-time Sync • Multi-Language • Dark/Light Mode</i>
 
 </div>
 
@@ -22,6 +22,7 @@
 ## 📖 Overview
 
 **MoneyTracker** is a modern financial management tool designed to help users track expenses, monitor income, and visualize spending habits. Built with **Feature-First Architecture**, it leverages **Cubit** for state management, **Firebase** for secure cloud synchronization, and **Hive** for fast local storage and offline capabilities.
+To ensure a personalized user experience, the app now features **fully adaptive theming** (Dark & Light modes) and **Localization support**, allowing users to manage their finances in their preferred language and interface style.
 
 ---
 
@@ -87,11 +88,11 @@ This project follows a **Feature-First** architecture to ensure scalability, mai
 ````text
 lib/
 ├── core/
-│   ├── database/           # Hive & Fire
+│   ├── dataSource/         # Hive & Fire
 │   ├── extensions/         # Media Query & Responsive
 │   ├── theme/              # ColorsManager & App Theme
 │   ├── utils/              # Constants, Strings, & Validators
-│   └── widgets/            # Reusable global widgets
+│   └── localization/       # ar, en
 ├── feature/
 │   ├── splash/             # Initial splash screen & App startup
 │   ├── auth/               # Login, Register
