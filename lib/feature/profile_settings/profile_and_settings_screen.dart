@@ -19,10 +19,7 @@ class ProfileAndSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getUserModel(),
-      child: const _ProfileAndSettingsScreen(),
-    );
+    return const _ProfileAndSettingsScreen();
   }
 }
 

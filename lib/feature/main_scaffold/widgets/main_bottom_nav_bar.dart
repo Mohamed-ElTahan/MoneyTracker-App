@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/colors_manager.dart';
-import 'model/nav_item_model.dart';
+import '../../../core/localization/app_localizations.dart';
+import '../../../core/theme/colors_manager.dart';
+import '../model/nav_item_model.dart';
 
 class MainBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -25,21 +26,33 @@ class MainBottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           for (int i = 0; i < navItems.length; i++)
-            _buildNavItem(
+            _BuildNavItem(
               navItem: navItems[i],
               isSelected: selectedIndex == i,
               index: i,
+              onItemTapped: (int index) => onItemTapped(index),
             ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildNavItem({
-    required NavItemModel navItem,
-    required bool isSelected,
-    required int index,
-  }) {
+class _BuildNavItem extends StatelessWidget {
+  final NavItemModel navItem;
+  final bool isSelected;
+  final int index;
+  final Function(int) onItemTapped;
+
+  const _BuildNavItem({
+    required this.navItem,
+    required this.isSelected,
+    required this.index,
+    required this.onItemTapped,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onItemTapped(index),
       child: Column(
@@ -52,7 +65,7 @@ class MainBottomNavBar extends StatelessWidget {
           ),
 
           Text(
-            navItem.navLabel,
+            AppLocalizations.of(context)!.translate(navItem.navLabel),
             style: TextStyle(
               fontSize: 12,
               color: isSelected
