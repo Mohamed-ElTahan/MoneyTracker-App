@@ -28,7 +28,7 @@ To ensure a personalized user experience, the app now features **fully adaptive 
 
 ## 📸 Screenshots
 
-|                        Onboarding                        |                     Authentication                      |                        Registration                        |                         Dashboard                         |
+|                          splash                          |                     Authentication                      |                        Registration                        |                         Dashboard                         |
 | :------------------------------------------------------: | :-----------------------------------------------------: | :--------------------------------------------------------: | :-------------------------------------------------------: |
 | <img src="assets/screens/splash_screen.png" width="200"> | <img src="assets/screens/login_screen.png" width="200"> | <img src="assets/screens/register_screen.png" width="200"> | <img src="assets/screens/home_dashboard.png" width="200"> |
 
