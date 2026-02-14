@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_tracker_app/feature/about_us/about_us_screen.dart';
 import 'package:money_tracker_app/feature/profile_settings/cubit/setting/setting_cubit.dart';
 import 'package:money_tracker_app/feature/profile_settings/cubit/setting/setting_state.dart';
 import 'core/localization/app_localizations.dart';
@@ -69,6 +70,7 @@ class MainApp extends StatelessWidget {
               AppRoutes.home: (context) => const MainScaffoldScreen(),
               AppRoutes.addTransaction: (context) =>
                   const AddTransactionScreen(),
+              AppRoutes.aboutUs: (context) => const AboutUsScreen(),
             },
           );
         },
