@@ -122,11 +122,11 @@ class _ProfileAndSettingsScreen extends StatelessWidget {
             ),
             SizedBox(height: context.h(0.015)),
             SettingsTile(
-              icon: Icons.help_outline,
+              icon: Icons.groups_rounded,
               title: AppLocalizations.of(
                 context,
-              )!.translate(AppStrings.helpSupport),
-              onTap: () {},
+              )!.translate(AppStrings.aboutUs),
+              onTap: () => Navigator.pushNamed(context, AppRoutes.aboutUs),
             ),
 
             SizedBox(height: context.h(0.04)),

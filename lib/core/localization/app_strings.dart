@@ -59,8 +59,9 @@ class AppStrings {
   static const String darkMode = 'dark_mode';
   static const String currency = 'currency';
   static const String language = 'language';
-  static const String helpSupport = 'help_support';
+  static const String aboutUs = 'about_us';
   static const String logout = 'logout';
   static const String logoutFailed = 'logout_failed';
   static const String appVersion = 'app_version';
+  static const String helpSupport = 'help_support';
 }
