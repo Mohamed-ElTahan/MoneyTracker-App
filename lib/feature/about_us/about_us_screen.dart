@@ -31,7 +31,7 @@ class AboutUsScreen extends StatelessWidget {
       name: 'Mahmoud Osama Abo Elhassan',
       role: 'Flutter Developer',
       email: 'mahmoudossama523@gmail.com',
-      imagePath: 'assets/profileIcon.png',
+      imagePath: 'assets/team_image/mahmoud.png',
     ),
   ];
 

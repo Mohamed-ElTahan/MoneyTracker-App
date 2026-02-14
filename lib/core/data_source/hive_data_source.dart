@@ -11,11 +11,4 @@ class HiveDataSource {
 
   // get transactions
   List<TransactionModel> getTransactions() => _transactionsBox.values.toList();
-
-  // delete transaction
-  Future<void> deleteTransaction({
-    required TransactionModel transaction,
-  }) async {
-    await _transactionsBox.delete(transaction);
-  }
 }

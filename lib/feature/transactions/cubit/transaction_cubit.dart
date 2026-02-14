@@ -1,25 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_tracker_app/core/data_source/hive_data_source.dart';
 import '../model/transaction_model.dart';
 import 'transaction_state.dart';
 
 class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
 
-  final Box<TransactionModel> box = Hive.box<TransactionModel>('transactions');
-  final user = FirebaseAuth.instance.currentUser;
+  final HiveDataSource hiveDataSource = HiveDataSource();
+
   double totalIncome = 0;
   double totalExpense = 0;
 
   void loadData() {
     emit(TransactionLoading());
     try {
-      final List<TransactionModel> transactions = box.values
-          .toList()
-          .cast<TransactionModel>();
+      final List<TransactionModel> transactions = hiveDataSource
+          .getTransactions();
 
-      for (var tx in transactions) {
+      for (TransactionModel tx in transactions) {
         if (tx.isIncome) {
           totalIncome += tx.amount;
         } else {
