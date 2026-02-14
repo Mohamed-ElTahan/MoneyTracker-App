@@ -24,8 +24,8 @@ class AboutUsScreen extends StatelessWidget {
     MemberModel(
       name: 'Abdelrahman Medhat Eldaly',
       role: 'Flutter Developer',
-      email: '[EMAIL_ADDRESS]',
-      imagePath: 'assets/profileIcon.png',
+      email: 'abdelrahmanazab1001@gmail.com',
+      imagePath: 'assets/team_image/dally.png',
     ),
     MemberModel(
       name: 'Mahmoud Osama Abo Elhassan',
