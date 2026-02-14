@@ -55,6 +55,14 @@ class AppTheme {
       // Card Color
       cardColor: ColorsManager.white,
 
+      cardTheme: CardThemeData(
+        color: ColorsManager.white,
+        elevation: 2,
+        shadowColor: Colors.green,
+        surfaceTintColor: Colors.green,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -212,6 +220,14 @@ class AppTheme {
 
       // Card Color
       cardColor: ColorsManager.darkSurface,
+
+      cardTheme: CardThemeData(
+        color: ColorsManager.darkSurface,
+        elevation: 2,
+        shadowColor: Colors.green,
+        surfaceTintColor: Colors.green,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
 
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
